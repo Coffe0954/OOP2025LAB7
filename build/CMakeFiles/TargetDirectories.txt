@@ -1,0 +1,3 @@
+/mnt/c/Users/vanya/OOP2025LAB7/build/CMakeFiles/balagur_fate_3.dir
+/mnt/c/Users/vanya/OOP2025LAB7/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/vanya/OOP2025LAB7/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.15)
+project(Lab7_MultiThread)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
+
+add_executable(balagur_fate_3
+    src/main.cpp
+    src/npc/npc.cpp
+    src/npc/bear.cpp
+    src/npc/werewolf.cpp
+    src/npc/bandit.cpp
+    src/factory/npc_factory.cpp
+    src/game/game_manager.cpp
+    src/game/battle_queue.cpp
+    src/utils/dice.cpp
+    src/utils/random.cpp
+    src/observer/console_observer.cpp
+    src/observer/file_observer.cpp
+)
+
+target_include_directories(balagur_fate_3 PRIVATE src)
