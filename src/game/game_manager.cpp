@@ -196,28 +196,43 @@ void GameManager::displayWorker() {
         // защита вывода
         std::lock_guard<std::mutex> cout_lock(cout_mutex);
         
-        // компактный вывод с прогресс-баром
-        std::cout << "\r["; // возврат каретки
+        // очищаем экран для чистого вывода (Linux/Mac)
+        std::cout << "\033[2J\033[1;1H";
+        // или для Windows:
+        // system("cls");
+        
+        // заголовок
+        std::cout << "=== Balagur Fate 3 - Real-time Simulation ===" << std::endl;
+        std::cout << "Time: " << game_time << "s / " << GAME_DURATION << "s" << std::endl;
+        std::cout << std::string(50, '=') << std::endl;
         
         // прогресс-бар
+        std::cout << "[";
         for (int i = 0; i < BAR_WIDTH; i++) {
             if (i < progress) std::cout << "=";
             else std::cout << ".";
         }
+        std::cout << "]" << std::endl;
         
         // статистика
-        std::cout << "] " 
-          << std::setw(3) << game_time << "s/" 
-          << std::setw(3) << GAME_DURATION << "s "
-          << "Live:" << std::setw(3) << alive_count << "/" 
-          << std::setw(3) << npcs.size()
-          << " Br:" << std::setw(2) << type_counts["Bear"]
-          << " Ww:" << std::setw(2) << type_counts["Werewolf"] 
-          << " Bd:" << std::setw(2) << type_counts["Bandit"]
-          << " Bat:" << std::setw(3) << total_battles.load()
-          << " Kil:" << std::setw(2) << total_kills.load()
-          << " Que:" << std::setw(3) << battle_queue.size()
-          << std::flush;
+        std::cout << "\nStatistics:" << std::endl;
+        std::cout << "  Alive: " << alive_count << "/" << npcs.size() 
+                  << "  Battles: " << total_battles.load()
+                  << "  Kills: " << total_kills.load() 
+                  << "  Queue: " << battle_queue.size() << std::endl;
+        std::cout << "  Bears: " << type_counts["Bear"] 
+                  << "  Werewolves: " << type_counts["Werewolf"]
+                  << "  Bandits: " << type_counts["Bandit"] << std::endl;
+        
+        std::cout << std::string(50, '-') << std::endl;
+        
+        // ВЫВОДИМ КАРТУ КАЖДУЮ СЕКУНДУ - ГЛАВНОЕ ТРЕБОВАНИЕ!
+        std::cout << "Real-time Map (only alive NPCs):" << std::endl;
+        printMap();  // ваш существующий метод
+        
+        // легенда
+        std::cout << "Legend: B=Bear  W=Werewolf  R=Bandit" << std::endl;
+        std::cout << std::string(50, '=') << std::endl;
         
         lock.unlock();
         
